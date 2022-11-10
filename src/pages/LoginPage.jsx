@@ -1,16 +1,17 @@
 import React from "react";
 import Header from '../components/Header';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
 
 const LoginContainer = () => {
     const navigate = useNavigate();
     const { login } = useAuth();
+    const { state } = useLocation();
 
     const handleLogin = () => {
         login().then(() => {
-            navigate("/search");
+            navigate(state?.path || "/search");
         });
     };
     return (

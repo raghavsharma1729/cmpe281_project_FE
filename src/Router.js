@@ -3,7 +3,8 @@ import {
     BrowserRouter as Router,
     Routes,
     Route,
-    Navigate
+    Navigate,
+    useLocation
 } from "react-router-dom";
 import Home from './pages/Home';
 import CreateTripPage from './pages/CreateTripPage';
@@ -13,8 +14,9 @@ import useAuth from './hooks/useAuth';
 
 function RequireAuth({ children }) {
     const { authed } = useAuth();
+    const location = useLocation();
 
-    return authed === true ? children : <Navigate to="/login" replace />;
+    return authed === true ? children : <Navigate to="/login" replace state={{ path: location.pathname }} />;
 }
 
 const RouterContent = () => (
