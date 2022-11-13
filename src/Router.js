@@ -9,7 +9,8 @@ import {
 import Home from './pages/Home';
 import CreateTripPage from './pages/CreateTripPage';
 import SearchPage from './pages/SearchPage';
-import LoginPage from './pages/LoginPage';
+// import LoginPage from './pages/LoginPage';
+import LoginPage from './pages/SignIn';
 import useAuth from './hooks/useAuth';
 
 function RequireAuth({ children }) {

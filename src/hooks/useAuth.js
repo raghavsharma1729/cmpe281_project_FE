@@ -1,10 +1,10 @@
 import * as React from "react";
+import { isUserSignedIn } from "../util";
 
 const authContext = React.createContext();
 
 function useAuth() {
-    const [authed, setAuthed] = React.useState(false);
-
+    const [authed, setAuthed] = React.useState(isUserSignedIn());
     return {
         authed,
         login() {
@@ -15,6 +15,7 @@ function useAuth() {
         },
         logout() {
             return new Promise((res) => {
+                localStorage.clear()
                 setAuthed(false);
                 res();
             });
