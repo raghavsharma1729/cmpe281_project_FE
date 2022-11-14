@@ -33,11 +33,18 @@ function Copyright(props) {
 
 export default function SignIn() {
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const { login, authed } = useAuth();
     const { state } = useLocation();
 
     const [inputs, setInputs] = React.useState({});
     const [error, setError] = React.useState();
+
+    // is user logged in redirect to search page
+    React.useEffect(() => {
+        if (authed) {
+            navigate(state?.path || "/search");
+        }
+    }, []);
 
     const handleChange = (event) => {
         const name = event.target.name;
