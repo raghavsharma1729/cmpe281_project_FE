@@ -14,6 +14,7 @@ import useAuth from './hooks/useAuth';
 import SignUpPage from './pages/SignUp';
 import TripPage from './pages/Trippage';
 import UserPage from './pages/UserPage';
+import ProfilePage from './pages/ProfilePage';
 import PageNotFound from './pages/NotFound';
 
 
@@ -34,7 +35,7 @@ const RouterContent = () => (
             <Route path="/trips/search" element={<SearchPage></SearchPage>} />
             <Route path="/trips/:tripId" element={<TripPage></TripPage>} />
             <Route path="/users/:userId" element={<UserPage></UserPage>} />
-            <Route path="/profile" element={<UserPage></UserPage>} />
+            <Route path="/profile" element={<ProfilePage></ProfilePage>} />
             <Route path="*" element={<PageNotFound></PageNotFound>} />
         </Routes>
     </Router>

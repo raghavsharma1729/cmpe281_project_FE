@@ -1,5 +1,5 @@
 import AddLocationIcon from '@mui/icons-material/AddLocation';
-import { Box, Button, Container, Grid, IconButton, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, IconButton, Stack, TextField, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import axios from "axios";
 import queryString from 'query-string';
@@ -67,9 +67,9 @@ const SearchContainer = () => {
     return (
         <>
             <Header />
-            <Container>
+            <Container style={{ marginTop: 36, marginBottom: 36 }}>
                 <Grid>
-                    <Typography variant="h3">
+                    <Typography variant="h4" color='secondary' textAlign='left'>
                         Search for Trips
                     </Typography>
                 </Grid>
@@ -77,42 +77,57 @@ const SearchContainer = () => {
                     justifyContent="center"
                     alignItems="center">
                     <Grid item xs={4}>
-                        <TextField
-                            margin="normal"
-                            fullWidth
-                            id="search"
-                            label="Seach Destinations"
-                            name="place"
-                            value={inputs.place}
-                            autoFocus
-                            onChange={handleChange}
-                        />
-                        <IconButton color="primary" aria-label="add places" onClick={handleAddingDestination}>
-                            <AddLocationIcon />
-                        </IconButton>
+                        <Stack direction="row" spacing={2}>
+                            <Box width='90%'>
+                                <TextField
+                                    margin="normal"
+                                    fullWidth
+                                    id="search"
+                                    label="Seach Destinations"
+                                    name="place"
+                                    value={inputs.place}
+                                    autoFocus
+                                    onChange={handleChange}
+                                />
+                            </Box>
+                            <Box py={2}>
+                                <IconButton color="primary" aria-label="add places" onClick={handleAddingDestination}>
+                                    <AddLocationIcon />
+                                </IconButton>
+                            </Box>
+                        </Stack>
                         <Typography>
                             {inputs.places?.join(", ")}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <DatePicker
-                            margin="normal"
-                            label="Start Date"
-                            inputFormat="MMM-DD-YYYY"
-                            value={inputs.startDate}
-                            minDate={new Date()}
-                            onChange={handleStartDateChange}
-                            renderInput={(params) => <TextField {...params} />}
-                        />
-                        <DatePicker
-                            margin="normal"
-                            label="End Date"
-                            inputFormat="MMM-DD-YYYY"
-                            minDate={inputs.startDate}
-                            value={inputs.endDate}
-                            onChange={handleEndDateChange}
-                            renderInput={(params) => <TextField {...params} />}
-                        />
+                        <Grid container spacing={3} direction="row"
+                            justifyContent="center"
+                            alignItems="center">
+                            <Grid item>
+                                <DatePicker
+                                    margin="normal"
+                                    label="Start Date"
+                                    inputFormat="MMM-DD-YYYY"
+                                    value={inputs.startDate}
+                                    minDate={new Date()}
+                                    onChange={handleStartDateChange}
+                                    renderInput={(params) => <TextField {...params} />
+                                    }
+                                />
+                            </Grid>
+                            <Grid item>
+                                <DatePicker
+                                    margin="normal"
+                                    label="End Date"
+                                    inputFormat="MMM-DD-YYYY"
+                                    minDate={inputs.startDate}
+                                    value={inputs.endDate}
+                                    onChange={handleEndDateChange}
+                                    renderInput={(params) => <TextField {...params} />}
+                                />
+                            </Grid>
+                        </Grid>
                     </Grid>
                     <Grid item xs={2}>
                         <Button variant="contained" onClick={handleSearch}> Search </Button>

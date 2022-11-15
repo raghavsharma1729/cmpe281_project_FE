@@ -14,14 +14,13 @@ const Image = styled('img')({
     width: '100%'
 });
 
-const UserPage = () => {
-    const params = useParams();
+const ProfilePage = () => {
 
     const navigate = useNavigate();
     const [user, setUser] = React.useState({});
 
     React.useEffect(() => {
-        axios.get(`${config.BASE_URL}/users/${params.userId}`, {
+        axios.get(`${config.BASE_URL}/profile`, {
             headers: {
                 authorization: `Bearer ${getToken()}`
             }
@@ -74,4 +73,4 @@ const UserPage = () => {
 }
 
 
-export default UserPage;
+export default ProfilePage;

@@ -1,22 +1,22 @@
-import * as React from 'react';
-import { Typography } from "@mui/material";
-import { Box, Container } from "@mui/material";
-import axios from "axios";
-import { isEmpty } from "lodash";
-import { useNavigate, useParams } from "react-router-dom";
-import Header from '../components/Header';
-import { config } from "../config";
+import { AssistantDirectionRounded, DateRange, PersonRounded, TodayRounded } from '@mui/icons-material/';
+import PeopleIcon from '@mui/icons-material/People';
+import { Box, Container, Stack, Typography } from "@mui/material";
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
-import Grid from '@mui/material/Grid';
-import { TodayRounded, AssistantDirectionRounded, PersonRounded } from '@mui/icons-material/';
-import PeopleIcon from '@mui/icons-material/People';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import Button from '@mui/material/Button';
-import { getToken, getUser, isUserSignedIn } from '../util';
+import axios from "axios";
 import dayjs from 'dayjs';
+import { isEmpty } from "lodash";
+import * as React from 'react';
+import { useNavigate, useParams } from "react-router-dom";
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+import PillText from '../components/PillText';
+import { config } from "../config";
+import { getToken, getUser, isUserSignedIn } from '../util';
 
 const TripPage = () => {
     const params = useParams();
@@ -73,10 +73,10 @@ const TripPage = () => {
             <Header />
             <Container maxWidth='sm'>
                 {isEmpty(trip) || (
-                    <>
-                        <Box>
+                    <Box border={1} borderRadius={2} my={2} px={8} py={2} key={trip._id} borderColor='#64646430' style={{ background: 'aliceblue' }}>
+                        <Box borderBottom={1}>
                             <Grid>
-                                <Typography variant="h4" style={{ weight: 'bold' }}>
+                                <Typography variant="h4" style={{ weight: 'bold', textAlign: 'left' }} color='info.main' textTransform='uppercase'>
                                     {trip?.title}
                                 </Typography>
                             </Grid>
@@ -85,43 +85,49 @@ const TripPage = () => {
                             <Grid container spacing={2} >
                                 <Grid item><Typography variant="h6" style={{ weight: 'bold' }}>Destinations: </Typography></Grid>
                                 <Grid item>
-                                    <List dense>
+                                    <Stack>
                                         {trip?.destinations.map((place) => {
-                                            return (<ListItem>
-                                                <ListItemAvatar>
-                                                    <AssistantDirectionRounded color="primary" />
-                                                </ListItemAvatar>
-                                                <ListItemText
-                                                    primary={place}
-                                                />
-                                            </ListItem>)
+                                            return (<Stack direction='row'>
+                                                <AssistantDirectionRounded color="primary" />
+                                                <PillText>{place}</PillText>
+                                            </Stack>)
                                         })}
-                                    </List>
+                                    </Stack>
                                 </Grid>
                             </Grid>
                         </Box>
                         <Box my={2}>
                             <Grid container spacing={2} >
                                 <Grid item ><Typography variant="h6" style={{ weight: 'bold' }}>About trip : </Typography></Grid>
-                                <Grid item > <Typography variant="h6" style={{ color: 'blue' }}>  {trip.description} </Typography></Grid>
+                                <Grid item > <Typography variant="h6">  {trip.description} </Typography></Grid>
                             </Grid>
                         </Box>
                         <Box my={2}>
                             <Grid container spacing={2} >
                                 <Grid item ><Typography variant="h6" style={{ weight: 'bold' }}>Estimation Cost : </Typography></Grid>
-                                <Grid item > <Typography variant="h6" style={{ color: 'blue' }}> $ {trip.cost} </Typography></Grid>
+                                <Grid item > <PillText variant="h6" color="primary"> $ {trip.cost} </PillText></Grid>
                             </Grid>
                         </Box>
                         <Box my={2}>
                             <Grid container spacing={2} >
                                 <Grid item ><Typography variant="h6" style={{ weight: 'bold' }}>Capacity : </Typography></Grid>
-                                <Grid item > <Typography variant="h6" style={{ color: 'blue' }}> {trip.members} <PeopleIcon /></Typography></Grid>
+                                <Grid item >
+                                    <Stack direction='row' alignItems='center'>
+                                        <Typography variant="h6" color="primary"> {trip.members} &nbsp; </Typography>
+                                        <PeopleIcon color="primary" />
+                                    </Stack>
+                                </Grid>
                             </Grid>
                         </Box>
                         <Box my={2}>
                             <Grid container spacing={2} >
                                 <Grid item ><Typography variant="h6" style={{ weight: 'bold' }}>Trip Duration: </Typography></Grid>
-                                <Grid item > <Typography variant="h6" style={{ color: 'blue' }}> {dayjs(trip.fromDate).format('DD-MMM-YYYY')} to {dayjs(trip.toDate).format('DD-MMM-YYYY')} </Typography></Grid>
+                                <Grid item >
+                                    <Stack direction='row' alignItems='center'>
+                                        <DateRange />
+                                        <Typography variant="h6"> &nbsp;{dayjs(trip.fromDate).format('DD-MMM-YYYY')} to {dayjs(trip.toDate).format('DD-MMM-YYYY')} </Typography>
+                                    </Stack>
+                                </Grid>
                             </Grid>
                         </Box>
                         <Box my={2}>
@@ -146,29 +152,40 @@ const TripPage = () => {
                         </Box>
                         <Box my={2}>
                             <Grid container spacing={2} >
-                                <Grid item ><Typography variant="h6" style={{ weight: 'bold' }}>Trip Creator: </Typography></Grid>
-                                <Grid item onClick={goToUser}>
-                                    <Typography variant="h6" style={{ color: 'blue' }}><AccountCircleIcon /> &nbsp;{trip.creator[0].firstName} {trip.creator[0].lastName} </Typography>
+                                <Grid item ><Typography variant="h6" style={{ weight: 'bold' }}>Created By: </Typography></Grid>
+                                <Grid item >
+                                    <Button
+                                        key={'logout'}
+                                        onClick={goToUser}
+                                        sx={{ my: 2, textTransform: 'initial' }}
+                                        variant='outlined'
+                                    >
+                                        <PersonRounded color="primary" /> <Typography textAlign="center" px={2} >&nbsp;{trip.creator[0].firstName} {trip.creator[0].lastName} </Typography>
+                                    </Button>
                                 </Grid>
                             </Grid>
                         </Box>
                         <Box my={2}>
                             <Grid container spacing={2} >
-                                <Grid item><Typography variant="h6" style={{ weight: 'bold' }}>Joined Members: </Typography></Grid>
-                                <Grid>
-                                    <List dense>
+                                <Grid item><Typography variant="h6" style={{ weight: 'bold' }}>Joined By: </Typography></Grid>
+                                <Grid item>
+                                    <Stack>
                                         {trip?.joinee.map((user) => {
-                                            const text = `${user.firstName} ${user.lastName}`;
-                                            return (<ListItem>
-                                                <ListItemAvatar>
+                                            const joineName = `${user.firstName} ${user.lastName}`;
+                                            return (
+                                                <Button
+                                                    key={`user${user._id}`}
+                                                    onClick={() => { navigate(`/users/${user._id}`) }}
+                                                    sx={{ my: 2, textTransform: 'initial' }}
+                                                    variant='outlined'
+                                                >
                                                     <PersonRounded color="primary" />
-                                                </ListItemAvatar>
-                                                <ListItemText
-                                                    primary={text}
-                                                />
-                                            </ListItem>)
+                                                    <Typography textAlign="center" px={2}>
+                                                        {joineName}
+                                                    </Typography>
+                                                </Button>)
                                         })}
-                                    </List>
+                                    </Stack>
                                 </Grid>
                             </Grid>
                         </Box>
@@ -187,9 +204,10 @@ const TripPage = () => {
                                 </Grid>
                             }
                         </Box>
-                    </>
+                    </Box>
                 )}
             </Container>
+            <Footer />
         </>
     );
 }

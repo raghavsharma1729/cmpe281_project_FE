@@ -34,7 +34,7 @@ export default function SignUp() {
     // is user logged in redirect to search page
     React.useEffect(() => {
         if (authed) {
-            navigate(state?.path || "/search");
+            navigate(state?.path || "/trips/search");
         }
     }, []);
 

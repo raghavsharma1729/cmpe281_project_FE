@@ -20,12 +20,7 @@ const DayPlan = ({ noOfDays, handlePlans, tripDetails }) => {
     }
     return (<>{
         days.map((val, index) =>
-            <>
-                <Typography>
-                    Day: {index + 1}
-                </Typography>
-                <TextareaAutosize name={index} value={tripDetails[`${index}`]} onChange={handleChange} />
-            </>
+            <TextareaAutosize style={{ height: '40px' }} name={index} value={tripDetails[`${index}`]} onChange={handleChange} placeholder={`Plan Day :${index + 1}`} />
         )}</>)
 }
 

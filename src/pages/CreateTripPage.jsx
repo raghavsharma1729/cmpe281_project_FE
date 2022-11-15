@@ -1,6 +1,6 @@
 import AddLocationIcon from '@mui/icons-material/AddLocation';
 import ShareLocationRoundedIcon from '@mui/icons-material/ShareLocationRounded';
-import { IconButton } from "@mui/material";
+import { Grid, IconButton } from "@mui/material";
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -14,6 +14,7 @@ import dayjs from 'dayjs';
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import DayPlan from "../components/DayPlan";
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { config } from '../config';
 import useAuth from "../hooks/useAuth";
@@ -141,10 +142,10 @@ const CreateTripPage = () => {
                         <ShareLocationRoundedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Share your Plans
+                        Share your plan
                     </Typography>
-                    <Box component="form" >
-                        <Stack spacing={4}>
+                    <Box component="form" width='100%'>
+                        <Stack spacing={2}>
                             <TextField
                                 margin="normal"
                                 required
@@ -165,21 +166,35 @@ const CreateTripPage = () => {
                                 autoFocus
                                 onChange={handleChange}
                             />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="place"
-                                label="destinations"
-                                name="place"
-                                value={inputs.place}
-                                autoFocus
-                                onChange={handleChange}
-                            />
-                            <IconButton color="primary" aria-label="add places" onClick={handleAddingDestination}>
-                                <AddLocationIcon />
-                            </IconButton>
-                            <Typography>
+                            <Stack direction="row" spacing={2}>
+                                <Box width='90%'>
+                                    <TextField
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="place"
+                                        label="destinations"
+                                        name="place"
+                                        value={inputs.place}
+                                        autoFocus
+                                        onChange={handleChange}
+                                    />
+                                </Box>
+                                <Box py={2}>
+                                    <IconButton color="primary" aria-label="add places" onClick={handleAddingDestination}>
+                                        <AddLocationIcon />
+                                    </IconButton>
+                                </Box>
+                            </Stack>
+                            <Typography style={{
+                                fontSize: '16px',
+                                fontWeight: 'bold',
+                                background: 'aliceblue',
+                                marginTop: '0px',
+                                color: 'cornflowerblue',
+                                textAlign: 'left',
+                                paddingLeft: 16
+                            }}>
                                 {inputs.destinations?.join(", ")}
                             </Typography>
                             <TextField
@@ -230,7 +245,8 @@ const CreateTripPage = () => {
                                 onChange={handleEndDateChange}
                                 renderInput={(params) => <TextField {...params} />}
                             />
-                            <Typography>Plans Details
+                            <Typography textAlign='left'>
+                                Plans Details
                             </Typography>
                             <DayPlan noOfDays={tripLength} tripDetails={inputs.tripDetails} handlePlans={handlePlans} />
                             <Button
@@ -247,6 +263,7 @@ const CreateTripPage = () => {
                     </Box>
                 </Box>
             </Container>
+            <Footer />
         </>
     );
 }
