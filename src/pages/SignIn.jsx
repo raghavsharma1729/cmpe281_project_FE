@@ -15,20 +15,8 @@ import { config } from '../config';
 import axios from 'axios';
 import { isEmpty } from 'lodash';
 import { setLocalStorage } from '../util';
+import Footer from '../components/Footer';
 
-
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://pooling.com/">
-                pooling
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 
 
 export default function SignIn() {
@@ -61,7 +49,7 @@ export default function SignIn() {
                 if (response.status == 200 && !isEmpty(response.data.token)) {
                     setLocalStorage(response);
                     login().then(() => {
-                        navigate(state?.path || "/search");
+                        navigate(state?.path || "/trips/search");
                     });
                     setError();
                 }
@@ -127,15 +115,15 @@ export default function SignIn() {
                         <p style={{ color: "red" }}>{error}</p>
                         <Grid container>
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href="/registration" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
                         </Grid>
                     </Box>
                 </Box>
-                <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>
+            <Footer />
         </>
     );
 }

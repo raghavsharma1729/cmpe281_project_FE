@@ -11,6 +11,7 @@ import theme from './theme';
 import { AuthProvider } from "./hooks/useAuth";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { Box } from '@mui/material';
 
 
 
@@ -25,7 +26,15 @@ function App() {
         </Helmet>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <AuthProvider>
-            <RouterContent />
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: '100vh',
+              }}
+            >
+              <RouterContent />
+            </Box>
           </AuthProvider>
         </LocalizationProvider>
       </ThemeProvider>

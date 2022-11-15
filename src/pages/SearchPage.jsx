@@ -4,6 +4,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import axios from "axios";
 import queryString from 'query-string';
 import React from "react";
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import TripTile from "../components/TripTile";
 import { config } from "../config";
@@ -123,6 +124,7 @@ const SearchContainer = () => {
                     ))}
                 </Box>
             </Container>
+            <Footer />
         </>
     );
 }

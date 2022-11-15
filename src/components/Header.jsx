@@ -1,30 +1,35 @@
-import * as React from 'react';
+import { AddCircle, Search } from '@mui/icons-material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import GroupWorkIcon from '@mui/icons-material/GroupWork';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import LogoutIcon from '@mui/icons-material/Logout';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
+import Container from '@mui/material/Container';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import { Search, AddCircle } from '@mui/icons-material';
-import BGLogo from './BGLogo';
-import SMLogo from './SMLogo';
-import useAuth from '../hooks/useAuth';
+import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
 import { useNavigate } from "react-router-dom";
+import useAuth from '../hooks/useAuth';
+import { getUser, isUserSignedIn } from '../util';
+import BGLogo from './BGLogo';
 
 const pages = ['Search', 'Publish a ride'];
 const icons = [<Search />, <AddCircle />];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const urls = ['/trips/search', '/publish/trip'];
+
 
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [isUserLoggedIn, setIsUserLoggedIn] = React.useState(isUserSignedIn());
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -33,7 +38,8 @@ function ResponsiveAppBar() {
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleCloseNavMenu = () => {
+    const handleCloseNavMenu = (event) => {
+        console.log('page', event)
         setAnchorElNav(null);
     };
 
@@ -49,98 +55,84 @@ function ResponsiveAppBar() {
         navigate("/");
     };
 
+    const goToProfile = () => {
+        navigate("/profile");
+    };
+    const signup = () => {
+        navigate('/registration');
+    }
+    const login = () => {
+        navigate('/login');
+    }
+
     return (
-        <AppBar position="static">
+        <AppBar position="static" style={{ justifyContent: 'center', height: '9vh' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                    <GroupWorkIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                     <BGLogo />
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                            color="inherit"
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
-                            sx={{
-                                display: { xs: 'block', md: 'none' },
-                            }}
-                        >
-                            {pages.map((page, index) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    {icons[index]} <Typography textAlign="center">{page}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box>
-                    <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-                    <SMLogo />
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page, index) => (
                             <Button
                                 key={page}
-                                onClick={handleCloseNavMenu}
+                                onClick={() => {
+                                    handleCloseNavMenu();
+                                    navigate(urls[index]);
+                                }}
                                 sx={{ my: 2, color: 'white' }}
                             >
                                 {icons[index]} <Typography textAlign="center" px={2}>{page}</Typography>
                             </Button>
                         ))}
-                        <Button
-                            key={'logout'}
-                            onClick={handleLogout}
-                            sx={{ my: 2, color: 'white' }}
-                        >
-                            {authed && <Typography textAlign="center" px={2}>Logout</Typography>}
-                        </Button>
                     </Box>
-
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
+                    {isUserLoggedIn ?
+                        (<Box sx={{ flexGrow: 0 }}>
+                            <Tooltip title="Open settings">
+                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                    <Avatar alt={getUser().firstName} src="/static/images/avatar/2.jpg" />
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                sx={{ mt: '45px' }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                <MenuItem key='profile' onClick={goToProfile}>
+                                    <AccountCircleIcon /><Typography textAlign="center">&nbsp;Profile</Typography>
                                 </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box>
+                                <MenuItem key='logout' onClick={handleLogout}>
+                                    <LogoutIcon /> <Typography textAlign="center">&nbsp;Logout</Typography>
+                                </MenuItem>
+                            </Menu>
+                        </Box>) :
+                        <Box sx={{ flexGrow: 0 }}>
+                            <Button
+                                key={'logout'}
+                                onClick={login}
+                                sx={{ my: 2, color: 'white' }}
+                            >
+                                <LockOpenIcon /> <Typography textAlign="center" px={2}>Sign In</Typography>
+                            </Button>
+                            <Button
+                                key={'logout'}
+                                onClick={signup}
+                                sx={{ my: 2, color: 'white' }}
+                            >
+                                <HowToRegIcon /> <Typography textAlign="center" px={2}>Sign UP</Typography>
+                            </Button>
+                        </Box>
+                    }
                 </Toolbar>
             </Container>
         </AppBar>

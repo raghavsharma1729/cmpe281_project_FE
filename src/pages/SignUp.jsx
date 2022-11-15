@@ -19,20 +19,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Header from '../components/Header';
 import { config } from '../config';
 import useAuth from "../hooks/useAuth";
-
-
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://pooling.com/">
-                pooling
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import Footer from '../components/Footer';
+import { Grid } from '@mui/material';
 
 
 export default function SignUp() {
@@ -98,8 +86,8 @@ export default function SignUp() {
                     <Typography component="h1" variant="h5">
                         Sign Up
                     </Typography>
-                    <Box component="form" >
-                        <Stack spacing={4}>
+                    <Box component="form" style={{ width: '100%' }} >
+                        <Stack spacing={2}>
                             <TextField
                                 margin="normal"
                                 required
@@ -153,7 +141,7 @@ export default function SignUp() {
                                 onChange={handleDateChange}
                                 renderInput={(params) => <TextField {...params} />}
                             />
-                            <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
+                            <FormLabel id="demo-radio-buttons-group-label" style={{ textAlign: 'start' }}>Gender</FormLabel>
                             <RadioGroup
                                 row
                                 aria-labelledby="demo-radio-buttons-group-label"
@@ -171,14 +159,21 @@ export default function SignUp() {
                                 sx={{ mt: 3, mb: 2 }}
                                 onClick={handleSubmit}
                             >
-                                Sign In
+                                Register
                             </Button>
                             <p style={{ color: "red" }}>{error}</p>
+                            <Grid container>
+                                <Grid item>
+                                    <Link href="/login" variant="body2">
+                                        {"Already have an account? Sign in"}
+                                    </Link>
+                                </Grid>
+                            </Grid>
                         </Stack>
                     </Box>
                 </Box>
-                <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>
+            <Footer />
         </>
     );
 }

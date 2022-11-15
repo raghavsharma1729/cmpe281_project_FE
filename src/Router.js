@@ -9,12 +9,13 @@ import {
 import Home from './pages/Home';
 import CreateTripPage from './pages/CreateTripPage';
 import SearchPage from './pages/SearchPage';
-// import LoginPage from './pages/LoginPage';
-import LoginPage from './pages/SignIn';
+import SignInPage from './pages/SignIn';
 import useAuth from './hooks/useAuth';
 import SignUpPage from './pages/SignUp';
 import TripPage from './pages/Trippage';
 import UserPage from './pages/UserPage';
+import PageNotFound from './pages/NotFound';
+
 
 function RequireAuth({ children }) {
     const { authed } = useAuth();
@@ -27,12 +28,14 @@ const RouterContent = () => (
     <Router>
         <Routes>
             <Route path="/" element={<Home></Home>} />
-            <Route path="/login" element={<LoginPage></LoginPage>} />
+            <Route path="/login" element={<SignInPage></SignInPage>} />
             <Route path="/registration" element={<SignUpPage></SignUpPage>} />
-            <Route path="/publish-trip" element={<RequireAuth><CreateTripPage></CreateTripPage></RequireAuth>} />
-            <Route path="/search" element={<RequireAuth><SearchPage></SearchPage></RequireAuth>} />
+            <Route path="/publish/trip" element={<RequireAuth><CreateTripPage></CreateTripPage></RequireAuth>} />
+            <Route path="/trips/search" element={<SearchPage></SearchPage>} />
             <Route path="/trips/:tripId" element={<TripPage></TripPage>} />
             <Route path="/users/:userId" element={<UserPage></UserPage>} />
+            <Route path="/profile" element={<UserPage></UserPage>} />
+            <Route path="*" element={<PageNotFound></PageNotFound>} />
         </Routes>
     </Router>
 );

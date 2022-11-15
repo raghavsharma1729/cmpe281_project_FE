@@ -18,7 +18,7 @@ function BGLogo() {
             textDecoration: 'none',
         }}
     >
-        BGPooling
+        VacayPooling
     </Typography>);
 }
 
