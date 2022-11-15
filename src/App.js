@@ -10,7 +10,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from './theme';
 import { AuthProvider } from "./hooks/useAuth";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 
 
@@ -23,7 +23,7 @@ function App() {
         <Helmet>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Helmet>
-        <LocalizationProvider dateAdapter={AdapterMoment}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
           <AuthProvider>
             <RouterContent />
           </AuthProvider>

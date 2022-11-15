@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 import { Box, Container } from "@mui/material";
 import axios from "axios";
 import { isEmpty } from "lodash";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from '../components/Header';
 import { config } from "../config";
 import List from '@mui/material/List';
@@ -12,8 +12,10 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Grid from '@mui/material/Grid';
 import { TodayRounded, AssistantDirectionRounded, PersonRounded } from '@mui/icons-material/';
+import PeopleIcon from '@mui/icons-material/People';
 import Button from '@mui/material/Button';
 import { getToken, getUser, isUserSignedIn } from '../util';
+import dayjs from 'dayjs';
 
 const TripPage = () => {
     const params = useParams();
@@ -57,7 +59,7 @@ const TripPage = () => {
     const hasUserjoined = (trip) => {
         if (isUserSignedIn()) {
             const user = getUser();
-            return trip?.joiners.includes(user.id);
+            return trip?.joiners.includes(user.id) || user.id == trip.userId;
         }
     }
 
@@ -95,8 +97,26 @@ const TripPage = () => {
                         </Box>
                         <Box my={2}>
                             <Grid container spacing={2} >
-                                <Grid item ><Typography variant="h6" style={{ weight: 'bold' }}>Estimation Cost: </Typography></Grid>
+                                <Grid item ><Typography variant="h6" style={{ weight: 'bold' }}>About trip : </Typography></Grid>
+                                <Grid item > <Typography variant="h6" style={{ color: 'blue' }}>  {trip.description} </Typography></Grid>
+                            </Grid>
+                        </Box>
+                        <Box my={2}>
+                            <Grid container spacing={2} >
+                                <Grid item ><Typography variant="h6" style={{ weight: 'bold' }}>Estimation Cost : </Typography></Grid>
                                 <Grid item > <Typography variant="h6" style={{ color: 'blue' }}> $ {trip.cost} </Typography></Grid>
+                            </Grid>
+                        </Box>
+                        <Box my={2}>
+                            <Grid container spacing={2} >
+                                <Grid item ><Typography variant="h6" style={{ weight: 'bold' }}>Capacity : </Typography></Grid>
+                                <Grid item > <Typography variant="h6" style={{ color: 'blue' }}> {trip.members} <PeopleIcon /></Typography></Grid>
+                            </Grid>
+                        </Box>
+                        <Box my={2}>
+                            <Grid container spacing={2} >
+                                <Grid item ><Typography variant="h6" style={{ weight: 'bold' }}>Trip Duration: </Typography></Grid>
+                                <Grid item > <Typography variant="h6" style={{ color: 'blue' }}> {dayjs(trip.fromDate).format('DD-MMM-YYYY')} to {dayjs(trip.toDate).format('DD-MMM-YYYY')} </Typography></Grid>
                             </Grid>
                         </Box>
                         <Box my={2}>

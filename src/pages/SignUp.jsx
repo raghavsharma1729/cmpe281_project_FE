@@ -1,29 +1,24 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
-import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import Header from '../components/Header';
-import { useNavigate, useLocation } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
-import { config } from '../config';
-import axios from 'axios';
-import { isEmpty } from 'lodash';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import moment from 'moment/moment';
-import { Stack } from '@mui/system';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
-
-
-
+import Link from '@mui/material/Link';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { Stack } from '@mui/system';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import axios from 'axios';
+import dayjs from 'dayjs';
+import { useLocation, useNavigate } from "react-router-dom";
+import Header from '../components/Header';
+import { config } from '../config';
+import useAuth from "../hooks/useAuth";
 
 
 function Copyright(props) {
@@ -45,7 +40,7 @@ export default function SignUp() {
     const { authed } = useAuth();
     const { state } = useLocation();
 
-    const [inputs, setInputs] = React.useState({ dateOfBirth: moment('2014-08-18T21:11:54') });
+    const [inputs, setInputs] = React.useState({ dateOfBirth: dayjs('2014-08-18T21:11:54') });
     const [error, setError] = React.useState();
 
     // is user logged in redirect to search page

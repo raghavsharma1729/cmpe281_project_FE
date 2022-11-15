@@ -28,7 +28,7 @@ const RouterContent = () => (
             <Route path="/" element={<Home></Home>} />
             <Route path="/login" element={<LoginPage></LoginPage>} />
             <Route path="/registration" element={<SignUpPage></SignUpPage>} />
-            <Route path="/create-trip" element={<RequireAuth><CreateTripPage></CreateTripPage></RequireAuth>} />
+            <Route path="/publish-trip" element={<RequireAuth><CreateTripPage></CreateTripPage></RequireAuth>} />
             <Route path="/search" element={<RequireAuth><SearchPage></SearchPage></RequireAuth>} />
             <Route path="/trips/:tripId" element={<TripPage></TripPage>} />
         </Routes>
