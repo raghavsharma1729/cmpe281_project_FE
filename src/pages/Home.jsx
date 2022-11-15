@@ -23,7 +23,7 @@ const HomeContainer = () => {
             <Container>
                 <Grid container my={6}>
                     <Grid item xs={6} px={2}>
-                        <Image src='../../cloud-main-img.jpeg' />
+                        <Image src='../../vacaypooling.jpeg' />
                     </Grid>
                     <Grid item xs={6} textAlign='initial' px={2} >
                         <Typography variant="h4" py={2} color='secondary' style={{ wordSpacing: '8px', fontWeight: 'bold' }} >
