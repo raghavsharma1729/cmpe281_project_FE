@@ -1,33 +1,27 @@
-import React from "react";
+import AddLocationIcon from '@mui/icons-material/AddLocation';
 import ShareLocationRoundedIcon from '@mui/icons-material/ShareLocationRounded';
+import { IconButton } from "@mui/material";
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import Link from '@mui/material/Link';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/system';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import { useLocation, useNavigate } from "react-router-dom";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import DayPlan from "../components/DayPlan";
 import Header from '../components/Header';
 import { config } from '../config';
 import useAuth from "../hooks/useAuth";
-import { TextareaAutosize, IconButton } from "@mui/material";
-import AddLocationIcon from '@mui/icons-material/AddLocation';
-import DayPlan from "../components/DayPlan";
 import { getToken } from "../util";
 
 const CreateTripPage = () => {
     const navigate = useNavigate();
     const { authed } = useAuth();
-    const { state } = useLocation();
 
     const [inputs, setInputs] = React.useState(
         {
@@ -210,6 +204,7 @@ const CreateTripPage = () => {
                                 margin="normal"
                                 required
                                 fullWidth
+                                type="number"
                                 name="members"
                                 label="Members"
                                 id="members"

@@ -13,6 +13,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Grid from '@mui/material/Grid';
 import { TodayRounded, AssistantDirectionRounded, PersonRounded } from '@mui/icons-material/';
 import PeopleIcon from '@mui/icons-material/People';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Button from '@mui/material/Button';
 import { getToken, getUser, isUserSignedIn } from '../util';
 import dayjs from 'dayjs';
@@ -61,6 +62,10 @@ const TripPage = () => {
             const user = getUser();
             return trip?.joiners.includes(user.id) || user.id == trip.userId;
         }
+    }
+
+    const goToUser = () => {
+        navigate(`/users/${trip.creator[0]._id}`);
     }
 
     return (
@@ -141,7 +146,15 @@ const TripPage = () => {
                         </Box>
                         <Box my={2}>
                             <Grid container spacing={2} >
-                                <Grid item><Typography variant="h6" style={{ weight: 'bold' }}>Joiners: </Typography></Grid>
+                                <Grid item ><Typography variant="h6" style={{ weight: 'bold' }}>Trip Creator: </Typography></Grid>
+                                <Grid item onClick={goToUser}>
+                                    <Typography variant="h6" style={{ color: 'blue' }}><AccountCircleIcon /> &nbsp;{trip.creator[0].firstName} {trip.creator[0].lastName} </Typography>
+                                </Grid>
+                            </Grid>
+                        </Box>
+                        <Box my={2}>
+                            <Grid container spacing={2} >
+                                <Grid item><Typography variant="h6" style={{ weight: 'bold' }}>Joined Members: </Typography></Grid>
                                 <Grid>
                                     <List dense>
                                         {trip?.joinee.map((user) => {

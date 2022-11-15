@@ -14,6 +14,7 @@ import LoginPage from './pages/SignIn';
 import useAuth from './hooks/useAuth';
 import SignUpPage from './pages/SignUp';
 import TripPage from './pages/Trippage';
+import UserPage from './pages/UserPage';
 
 function RequireAuth({ children }) {
     const { authed } = useAuth();
@@ -31,6 +32,7 @@ const RouterContent = () => (
             <Route path="/publish-trip" element={<RequireAuth><CreateTripPage></CreateTripPage></RequireAuth>} />
             <Route path="/search" element={<RequireAuth><SearchPage></SearchPage></RequireAuth>} />
             <Route path="/trips/:tripId" element={<TripPage></TripPage>} />
+            <Route path="/users/:userId" element={<UserPage></UserPage>} />
         </Routes>
     </Router>
 );
