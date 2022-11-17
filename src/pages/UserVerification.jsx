@@ -8,7 +8,6 @@ import { isEmpty } from 'lodash';
 
 const UserVerificationPage = () => {
     const params = useParams();
-    const [verified, setVerified] = React.useState(false);
     const [user, setUser] = React.useState(null);
     const [error, setError] = React.useState(null);
 
@@ -17,18 +16,16 @@ const UserVerificationPage = () => {
             axios.get(`${config.BASE_URL}/users/verify/${params.token}`, {})
                 .then(function (response) {
                     setUser(response.data);
-                    setVerified(true);
                 })
                 .catch(function (error) {
                     setError(error);
-                    setVerified(false);
                 });
         }
     });
     return (
         <>
             <Header />
-            {isEmpty(verified) && isEmpty(error) ?
+            {isEmpty(user) && isEmpty(error) ?
                 (<div className="container">
                     <div className="row">
                         <div className="col-md-6">
