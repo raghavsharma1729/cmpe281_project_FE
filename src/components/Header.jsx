@@ -1,5 +1,6 @@
 import { AddCircle, Search } from '@mui/icons-material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ShareLocationRoundedIcon from '@mui/icons-material/ShareLocationRounded';
 import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
@@ -58,6 +59,10 @@ function ResponsiveAppBar() {
     const goToProfile = () => {
         navigate("/profile");
     };
+
+    const goToTrips = () => {
+        navigate("/profile/trips");
+    };
     const signup = () => {
         navigate('/registration');
     }
@@ -69,9 +74,9 @@ function ResponsiveAppBar() {
         <AppBar position="static" style={{ justifyContent: 'center', height: '9vh' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <GroupWorkIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                    <GroupWorkIcon sx={{ display: { md: 'flex' }, mr: 1 }} />
                     <BGLogo />
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                    <Box sx={{ flexGrow: 1, display: { md: 'flex' } }}>
                         {pages.map((page, index) => (
                             <Button
                                 key={page}
@@ -111,6 +116,9 @@ function ResponsiveAppBar() {
                                 <MenuItem key='profile' onClick={goToProfile}>
                                     <AccountCircleIcon /><Typography textAlign="center">&nbsp;Profile</Typography>
                                 </MenuItem>
+                                <MenuItem key='trips' onClick={goToTrips}>
+                                    <ShareLocationRoundedIcon /><Typography textAlign="center">&nbsp;Trips</Typography>
+                                </MenuItem>
                                 <MenuItem key='logout' onClick={handleLogout}>
                                     <LogoutIcon /> <Typography textAlign="center">&nbsp;Logout</Typography>
                                 </MenuItem>
@@ -131,6 +139,7 @@ function ResponsiveAppBar() {
                             >
                                 <HowToRegIcon /> <Typography textAlign="center" px={2}>Sign UP</Typography>
                             </Button>
+
                         </Box>
                     }
                 </Toolbar>

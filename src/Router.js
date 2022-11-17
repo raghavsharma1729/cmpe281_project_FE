@@ -16,6 +16,8 @@ import TripPage from './pages/Trippage';
 import UserPage from './pages/UserPage';
 import ProfilePage from './pages/ProfilePage';
 import PageNotFound from './pages/NotFound';
+import UserVerificationPage from './pages/UserVerification';
+import UserTripsPage from './pages/UserTripsPage';
 
 
 function RequireAuth({ children }) {
@@ -35,7 +37,9 @@ const RouterContent = () => (
             <Route path="/trips/search" element={<SearchPage></SearchPage>} />
             <Route path="/trips/:tripId" element={<TripPage></TripPage>} />
             <Route path="/users/:userId" element={<UserPage></UserPage>} />
+            <Route path="/users/verify/:token" element={<UserVerificationPage></UserVerificationPage>} />
             <Route path="/profile" element={<ProfilePage></ProfilePage>} />
+            <Route path="/profile/trips" element={<RequireAuth><UserTripsPage></UserTripsPage></RequireAuth>} />
             <Route path="*" element={<PageNotFound></PageNotFound>} />
         </Routes>
     </Router>

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid, Stack, Typography } from "@mui/material";
 import axios from "axios";
 import dayjs from "dayjs";
 import * as React from 'react';
@@ -8,6 +8,8 @@ import Footer from "../components/Footer";
 import Header from '../components/Header';
 import { config } from "../config";
 import { getToken } from '../util';
+import CheckIcon from '@mui/icons-material/CheckCircleTwoTone';
+import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
 
 const Image = styled('img')({
     height: '100%',
@@ -16,6 +18,8 @@ const Image = styled('img')({
 
 const UserPage = () => {
     const params = useParams();
+
+
 
     const navigate = useNavigate();
     const [user, setUser] = React.useState({});
@@ -36,6 +40,7 @@ const UserPage = () => {
             });
     }, []);
 
+
     return (
         <>
             <Header />
@@ -55,9 +60,12 @@ const UserPage = () => {
                             <Typography variant="subtitle2" >
                                 Member since {dayjs(user.createdAt).format('MMM-YYYY')}
                             </Typography>
-                            <Typography variant="subtitle2" >
-                                Email verified
-                            </Typography>
+                            <Stack direction='row'>
+                                <Typography variant="subtitle2" >
+                                    Email verified &nbsp;
+                                </Typography>
+                                {user.emailVerified ? <CheckIcon /> : <CancelTwoToneIcon />}
+                            </Stack>
                             <Typography variant="subtitle2" >
                                 Trip Created: {user.tripsCreated}
                             </Typography>

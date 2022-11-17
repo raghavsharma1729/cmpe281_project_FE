@@ -15,6 +15,7 @@ import { config } from '../config';
 import axios from 'axios';
 import { isEmpty } from 'lodash';
 import { setLocalStorage } from '../util';
+import LinearProgress from '@mui/material/LinearProgress';
 import Footer from '../components/Footer';
 
 
@@ -26,6 +27,7 @@ export default function SignIn() {
 
     const [inputs, setInputs] = React.useState({});
     const [error, setError] = React.useState();
+    const [loading, setLoading] = React.useState(false);
 
     // is user logged in redirect to search page
     React.useEffect(() => {
@@ -41,6 +43,7 @@ export default function SignIn() {
     }
 
     const handleSubmit = () => {
+        setLoading(true);
         axios.post(`${config.BASE_URL}/login`, {
             email: inputs.email,
             password: inputs.password
@@ -52,11 +55,13 @@ export default function SignIn() {
                         navigate(state?.path || "/trips/search");
                     });
                     setError();
+                    setLoading(false);
                 }
                 setError(response.data.message);
             })
             .catch(function (error) {
                 console.log(error);
+                setLoading(false);
                 setError(error.response.data.message);
             });
     };
@@ -102,16 +107,17 @@ export default function SignIn() {
                             autoComplete="current-password"
                             onChange={handleChange}
                         />
-
                         <Button
                             type="button"
                             fullWidth
                             variant="contained"
+                            disabled={loading}
                             sx={{ mt: 3, mb: 2 }}
                             onClick={handleSubmit}
                         >
                             Sign In
                         </Button>
+                        {loading && <LinearProgress />}
                         <p style={{ color: "red" }}>{error}</p>
                         <Grid container>
                             <Grid item>

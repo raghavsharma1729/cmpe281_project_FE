@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Divider, Grid, Stack, Typography } from "@mui/material";
 import axios from "axios";
 import dayjs from "dayjs";
 import * as React from 'react';
@@ -8,6 +8,8 @@ import Footer from "../components/Footer";
 import Header from '../components/Header';
 import { config } from "../config";
 import { getToken } from '../util';
+import CheckIcon from '@mui/icons-material/CheckCircleTwoTone';
+import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
 
 const Image = styled('img')({
     height: '100%',
@@ -18,6 +20,10 @@ const ProfilePage = () => {
 
     const navigate = useNavigate();
     const [user, setUser] = React.useState({});
+
+    const goToTrips = () => {
+        navigate("/profile/trips");
+    };
 
     React.useEffect(() => {
         axios.get(`${config.BASE_URL}/profile`, {
@@ -52,17 +58,24 @@ const ProfilePage = () => {
                                 {user.email}
                             </Typography>
                             <Typography variant="subtitle2" >
-                                Member since {dayjs(user.createdAt).format('MMM-YYYY')}
+                                Member since {dayjs(user.createdAt).format('DD-MMM-YYYY')}
                             </Typography>
-                            <Typography variant="subtitle2" >
-                                Email verified
-                            </Typography>
+                            <Stack direction='row'>
+                                <Typography variant="subtitle2" >
+                                    Email verified &nbsp;
+                                </Typography>
+                                {user.emailVerified ? <CheckIcon /> : <CancelTwoToneIcon />}
+                            </Stack>
                             <Typography variant="subtitle2" >
                                 Trip Created: {user.tripsCreated}
                             </Typography>
                             <Typography variant="subtitle2" >
                                 Trip Joined: {user.tripsJoined}
                             </Typography>
+                            <Box my={2}>
+                                <Divider />
+                            </Box>
+                            <Button variant="contained" onClick={goToTrips} >Show Trips</Button>
                         </Grid>
                     </Grid>
                 </Box>

@@ -14,13 +14,15 @@ import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/system';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import axios from 'axios';
-import dayjs from 'dayjs';
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from '../components/Header';
 import { config } from '../config';
 import useAuth from "../hooks/useAuth";
 import Footer from '../components/Footer';
 import { Grid } from '@mui/material';
+import PillText from '../components/PillText';
+import LinearProgress from '@mui/material/LinearProgress';
+
 
 
 export default function SignUp() {
@@ -28,15 +30,32 @@ export default function SignUp() {
     const { authed } = useAuth();
     const { state } = useLocation();
 
-    const [inputs, setInputs] = React.useState({ dateOfBirth: dayjs('2014-08-18T21:11:54') });
+    const [inputs, setInputs] = React.useState({ dateOfBirth: null });
+    const [showMsg, setShowMsg] = React.useState(false);
     const [error, setError] = React.useState();
+    const [loading, setLoading] = React.useState(false);
+
+    let goToLogin;
 
     // is user logged in redirect to search page
     React.useEffect(() => {
         if (authed) {
             navigate(state?.path || "/trips/search");
         }
+
+        return () => clearTimeout(goToLogin);
     }, []);
+
+    React.useEffect(() => {
+        if (showMsg) {
+            goToLogin = setTimeout(() => {
+                navigate('/login');
+            }, 2000);
+
+        }
+        return () => clearTimeout(goToLogin);
+    }, [showMsg]);
+
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -49,6 +68,7 @@ export default function SignUp() {
     };
 
     const handleSubmit = () => {
+        setLoading(true);
         const { firstName, lastName, email, password, dateOfBirth, gender } = inputs;
         axios.post(`${config.BASE_URL}/signup`, {
             firstName,
@@ -59,11 +79,14 @@ export default function SignUp() {
             password
         })
             .then(function (response) {
-                navigate("/login");
+                setShowMsg(true);
+                setLoading(false);
                 setError();
             })
             .catch(function (error) {
                 console.log(error);
+                setShowMsg(false);
+                setLoading(false);
                 setError(error.response.data.message);
             });
     };
@@ -75,6 +98,7 @@ export default function SignUp() {
                 <Box
                     sx={{
                         marginTop: 8,
+                        marginBottom: 8,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
@@ -139,6 +163,7 @@ export default function SignUp() {
                                 inputFormat="MM/DD/YYYY"
                                 value={inputs.dateOfBirth}
                                 onChange={handleDateChange}
+                                maxDate={new Date('01-01-2004')}
                                 renderInput={(params) => <TextField {...params} />}
                             />
                             <FormLabel id="demo-radio-buttons-group-label" style={{ textAlign: 'start' }}>Gender</FormLabel>
@@ -158,10 +183,15 @@ export default function SignUp() {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                                 onClick={handleSubmit}
+                                disabled={loading}
                             >
                                 Register
                             </Button>
+                            {showMsg && <Box width='100%'>
+                                <PillText style={{ backgroundColor: '#d2ffd2' }}> An email Has been sent to you</PillText>
+                            </Box>}
                             <p style={{ color: "red" }}>{error}</p>
+                            {loading && <LinearProgress />}
                             <Grid container>
                                 <Grid item>
                                     <Link href="/login" variant="body2">

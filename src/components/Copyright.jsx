@@ -6,8 +6,8 @@ function Copyright() {
     return (
         <Typography variant="body2" color="text.secondary">
             {'Copyright © '}
-            <Link color="inherit" href="https://cloud281cmpe.com/">
-                www.cloud281cmpe.com
+            <Link color="inherit" href="https://vacaypooling.cloud281cmpe.com/">
+                http://vacaypooling.cloud281cmpe.com/
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}

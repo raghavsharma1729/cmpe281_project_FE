@@ -1,6 +1,6 @@
 import { AssistantDirectionRounded, DateRange, PersonRounded, TodayRounded } from '@mui/icons-material/';
 import PeopleIcon from '@mui/icons-material/People';
-import { Box, Container, Stack, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Stack, Typography } from "@mui/material";
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
@@ -21,23 +21,26 @@ import { getToken, getUser, isUserSignedIn } from '../util';
 const TripPage = () => {
     const params = useParams();
 
-    const [trip, setTrip] = React.useState({});
+    const [trip, setTrip] = React.useState();
+    const [loading, setLoading] = React.useState(false);
     const navigate = useNavigate();
 
     React.useEffect(() => {
+        setLoading(true);
         axios.get(`${config.BASE_URL}/trips/${params.tripId}`, {})
             .then(function (response) {
-                // console.log(response.data)
                 setTrip(response.data);
+                setLoading(false);
             })
             .catch(function (error) {
-
+                setLoading(false);
                 console.log(error);
             });
     }, []);
 
 
     const requestForTrip = () => {
+        setLoading(true);
         if (isUserSignedIn()) {
             axios.post(`${config.BASE_URL}/trips/${params.tripId}/request`, {}, {
                 headers: {
@@ -47,9 +50,12 @@ const TripPage = () => {
                 .then(function (response) {
                     // console.log(response)
                     setTrip(response.data);
+                    setLoading(false);
                 })
                 .catch(function (error) {
                     console.log(error);
+                    setLoading(false);
+
                 });
         }
         else {
@@ -72,7 +78,12 @@ const TripPage = () => {
         <>
             <Header />
             <Container maxWidth='sm'>
-                {isEmpty(trip) || (
+                {loading &&
+                    <Box display='flex' alignItems='center' justifyContent='center' height='75vh'>
+                        <CircularProgress />
+                    </Box>
+                }
+                {isEmpty(trip) || loading || (
                     <Box border={1} borderRadius={2} my={2} px={8} py={2} key={trip._id} borderColor='#64646430' style={{ background: 'aliceblue' }}>
                         <Box borderBottom={1}>
                             <Grid>
