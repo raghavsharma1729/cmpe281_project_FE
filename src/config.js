@@ -1,3 +1,3 @@
 export const config = {
-    BASE_URL: "https://api.cloud281cmpe.com"
+    BASE_URL: "https://api.vacaypooling.cloud281cmpe.com"
 }
